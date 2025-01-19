@@ -27,3 +27,7 @@ For this project, I'm going to scope to the following:
 - I think it'll be easy if I built a package on this project that can apply round-robin scheduling on any given item.
 - The round-robin package should be able to "replace" the existing items with new items (this will help us remove the node that has gone down automatically)
 - We'll also need a way to take the items out of the load-balancer, for that I can try to write a balancing package.
+- Let's try to build a rebalancing system because that might be tricky, echo server can be done next since it's very simple.
+- Let's add some logging, for this the best performing library would be the zap logger from uber, but let's go with logrus since I want to check that out anyway.
+- BTW, I would like to be creating some PRs now, but I don't want my company to find out so I'm going to be just creating the branch and merging locally.
+- While we could do a simple loop, I want to use the lo package to keep the code more readable.
