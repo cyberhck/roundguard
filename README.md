@@ -38,3 +38,7 @@ For this project, I'm going to scope to the following:
 - I think we now have a good enough server that's capable of responding to `POST /reflect` endpoint as well as `GET /live` endpoint.
 - We can now start working on command line API that will actually start this server for us to make some API calls.
 - The echo server works correctly, it's now time to go for the load balancing server.
+- So the resulting command looks like this: `go run main.go echo start --port 8888` (for a compiled binary, it'd look like: `./roundguard echo start --port 8888`)
+- I'm now able to start as many instance of echo server as I'd like. I'd also be able to specify any port I want.
+- Adding a simple reverse proxy now.
+- Now that the reverse proxy works, let's add some more logs first

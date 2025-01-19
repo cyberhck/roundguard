@@ -3,6 +3,7 @@ package rebalancer
 import (
 	"net/http"
 	"net/http/httputil"
+	"net/url"
 	"time"
 
 	"github.com/samber/lo"
@@ -24,11 +25,23 @@ func (r *Rebalancer[T]) StartRebalancer(interval time.Duration, livenessEndpoint
 	for {
 		healthy, unhealthy := r.groupProxiesByLiveness(livenessEndpoint)
 		if len(unhealthy) != 0 {
-			r.logger.WithField("count", len(unhealthy)).Warn("Found some unhealthy processes")
+			r.logger.WithField("unhealthy", lo.Map(unhealthy, func(item *httputil.ReverseProxy, _ int) string {
+				return r.getTargetHost(item)
+			})).WithField("healthy", lo.Map(healthy, func(item *httputil.ReverseProxy, _ int) string {
+				return r.getTargetHost(item)
+			})).Warn("Found some unhealthy processes")
 		}
 		r.lb.ResetWithNewItems(healthy)
 		<-ticker.C
 	}
+}
+func (r *Rebalancer[T]) getTargetHost(proxy *httputil.ReverseProxy) string {
+	request := &http.Request{
+		URL: &url.URL{},
+	}
+	proxy.Director(request)
+
+	return request.URL.Host
 }
 
 func (r *Rebalancer[T]) GetLoadbalancer() T {
@@ -41,6 +54,7 @@ func (r *Rebalancer[T]) groupProxiesByLiveness(livenessEndpoint string) ([]*http
 		if err != nil {
 			return false
 		}
+		p.Director(request)
 		resp, err := p.Transport.RoundTrip(request)
 		if err != nil {
 			return false
