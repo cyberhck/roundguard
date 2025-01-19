@@ -1,5 +1,5 @@
 ### Roundguard
-This is a simple Proof of Concept of a roundrobin load balancing mechanism. This is done as a part of tech assessment. It wouldn't be a wise idea to use this on actual production, although the reverse proxy should work (but then why wouldn't you use different proxy like nginx or let aws handle it)
+This is a simple Proof of Concept of a roundrobin load balancing mechanism. I'm doing this as a part of a challenge. It wouldn't be a wise idea to use this on actual production, although the reverse proxy should work (but then why wouldn't you use different proxy like nginx or let aws handle it)
 
 ### Scope
 For this problem, I decided to look at problem statement and write down scope of what will be included and what won't be. I also decided to add some things that seemed fun to write but may not necessarily be requirements.
@@ -58,7 +58,6 @@ Once that's confirmed, try bringing the same instance back up, after it goes thr
 - We'll also need a way to take the items out of the load-balancer, for that I can try to write a balancing package.
 - Let's try to build a rebalancing system because that might be tricky, echo server can be done next since it's very simple.
 - Let's add some logging, for this the best performing library would be the zap logger from uber, but let's go with logrus since I want to check that out anyway.
-- BTW, I would like to be creating some PRs now, but I don't want my company to find out so I'm going to be just creating the branch and merging locally.
 - While we could do a simple loop, I want to use the lo package to keep the code more readable.
 - Now that I think rebalancing and roundrobin is implemented to my liking, let's try to quickly whip up an echo server.
 - For echo server, the problem statement says it's going to have to be JSON, so I'm going to add a JSON decoder and encoder.
