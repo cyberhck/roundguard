@@ -34,3 +34,4 @@ For this project, I'm going to scope to the following:
 - Now that I think rebalancing and roundrobin is implemented to my liking, let's try to quickly whip up an echo server.
 - For echo server, the problem statement says it's going to have to be JSON, so I'm going to add a JSON decoder and encoder.
 - Now with the test passing, I'm fairly confident that this will work, next up is going to be writing a liveness handler.
+- Now that we have a liveness handler, we can then start by creating a server.
