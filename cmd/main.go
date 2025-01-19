@@ -92,7 +92,6 @@ func createLogger(cfg *config.AppConfig) *logrus.Logger {
 	switch cfg.LogFormat {
 	case "json":
 		logger.SetFormatter(&logrus.JSONFormatter{})
-		return logger
 	case "text":
 		logger.SetFormatter(&logrus.TextFormatter{})
 	}

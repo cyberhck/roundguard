@@ -23,6 +23,31 @@ For this project, I'm going to scope to the following:
 - since we'll have echo server and load balancing server, we'll accept only POST in the echo server, but any kind of request in the proxy (load balancing server)
 - This should be capable of handling large amount of traffic (so the locks needs to be carefully used)
 
+
+### How to set up
+- First clone this repository locally
+- Ensure you have latest golang compiler installed
+- Once cloned, simply run `go mod tidy && go mod vendor` (This should first download all dependencies locally, and then move them to a `vendor` directory in the project)
+- For this project I'll be commiting the generated mocks, but if you need to generate, simply run `go generate ./...`
+- Start first echo server by running the command in new terminal: `go run cmd/main.go echo start --port 8001`. This will start 1 echo server that is listening on http://localhost:8001
+- Start second echo server by running the command: `go run cmd/main.go echo start --port 8002`
+- Start third echo server by running the command: `go run cmd/main.go echo start --port 8003`
+- You can continue starting multiple servers like this, feel free to do as you wish.
+- Now start the load balancer by running this command: `go run cmd/main.go lb start --hosts "http://localhost:8001" --hosts "http://localhost:8002" --hosts "http://localhost:8003" --port 3000 `
+
+By now you should be seeing some logs that indicates that the server has started.
+You should be able to fire some requests to `http://localhost:3000/reflect` (since proxy server is in port `3000`)
+The response header by the name `X-Backend-Server` will indicate which instance is responding to your request.
+
+There are 3 configuration that you can provide using the environment variables, you can modify to your liking:
+```bash
+LOG_LEVEL=info LOG_FORMAT=json PROXY_CHECK_DURATION=5s go run cmd/main.go lb start --hosts "http://localhost:8001" --hosts "http://localhost:8002" --hosts "http://localhost:8003" --port 3000 
+```
+
+Now try killing one of the echo server that you started in the beginning, after waiting for 1 cycle, the load balancer shouldn't route any traffic to that instance anymore.
+
+Once that's confirmed, try bringing the same instance back up, after it goes through the next check phase, it will begin routing to that instance again.
+
 ### Thought process
 - I think it'll be easy if I built a package on this project that can apply round-robin scheduling on any given item.
 - The round-robin package should be able to "replace" the existing items with new items (this will help us remove the node that has gone down automatically)
