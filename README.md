@@ -38,6 +38,10 @@ For this project, I'm going to scope to the following:
 By now you should be seeing some logs that indicates that the server has started.
 You should be able to fire some requests to `http://localhost:3000/reflect` (since proxy server is in port `3000`)
 The response header by the name `X-Backend-Server` will indicate which instance is responding to your request.
+You should also be able to go to the load balancer's /metrics endpoint which is designed to be scraped by prometheus. This should give us much more information on the health of the system.
+There are some alerts that are recommended to be created:
+- Any increase in `proxy_count` with the label `availability` that's set to `unavailable`, this indicates one of the service is down. If we get the alert, it's expected to check the logs of the load balancer, find out which instance has gone down, investigate why it's down and restore it.
+- Any latency `request_duration_milliseconds` should also be monitored.
 
 There are 3 configuration that you can provide using the environment variables, you can modify to your liking:
 ```bash
