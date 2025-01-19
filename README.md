@@ -37,3 +37,4 @@ For this project, I'm going to scope to the following:
 - Now that we have a liveness handler, we can then start by creating a server.
 - I think we now have a good enough server that's capable of responding to `POST /reflect` endpoint as well as `GET /live` endpoint.
 - We can now start working on command line API that will actually start this server for us to make some API calls.
+- The echo server works correctly, it's now time to go for the load balancing server.
