@@ -35,3 +35,5 @@ For this project, I'm going to scope to the following:
 - For echo server, the problem statement says it's going to have to be JSON, so I'm going to add a JSON decoder and encoder.
 - Now with the test passing, I'm fairly confident that this will work, next up is going to be writing a liveness handler.
 - Now that we have a liveness handler, we can then start by creating a server.
+- I think we now have a good enough server that's capable of responding to `POST /reflect` endpoint as well as `GET /live` endpoint.
+- We can now start working on command line API that will actually start this server for us to make some API calls.
