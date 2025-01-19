@@ -31,3 +31,6 @@ For this project, I'm going to scope to the following:
 - Let's add some logging, for this the best performing library would be the zap logger from uber, but let's go with logrus since I want to check that out anyway.
 - BTW, I would like to be creating some PRs now, but I don't want my company to find out so I'm going to be just creating the branch and merging locally.
 - While we could do a simple loop, I want to use the lo package to keep the code more readable.
+- Now that I think rebalancing and roundrobin is implemented to my liking, let's try to quickly whip up an echo server.
+- For echo server, the problem statement says it's going to have to be JSON, so I'm going to add a JSON decoder and encoder.
+- Now with the test passing, I'm fairly confident that this will work, next up is going to be writing a liveness handler.
