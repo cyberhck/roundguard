@@ -8,11 +8,13 @@ import (
 	"github.com/cyberhck/roundguard/pkg/http/types"
 	"github.com/cyberhck/roundguard/pkg/rebalancer"
 	"github.com/cyberhck/roundguard/pkg/roundrobin"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/sirupsen/logrus"
 )
 
 func CreateServer(addr string, rb *rebalancer.Rebalancer[*roundrobin.RoundRobin[*httputil.ReverseProxy]], logger *logrus.Logger) (*http.Server, error) {
 	router := http.NewServeMux()
+	router.Handle("GET /metrics", promhttp.Handler())
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		proxy, err := rb.GetLoadbalancer().GetNext()
 		if err != nil {

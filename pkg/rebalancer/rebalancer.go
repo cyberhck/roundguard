@@ -6,6 +6,8 @@ import (
 	"net/url"
 	"time"
 
+	"github.com/cyberhck/roundguard/pkg/measurements"
+
 	"github.com/samber/lo"
 	"github.com/sirupsen/logrus"
 )
@@ -32,6 +34,7 @@ func (r *Rebalancer[T]) StartRebalancer(interval time.Duration, livenessEndpoint
 			})).Warn("Found some unhealthy processes")
 		}
 		r.lb.ResetWithNewItems(healthy)
+		measurements.MeasureAvailableProxies(len(healthy), len(unhealthy))
 		<-ticker.C
 	}
 }
